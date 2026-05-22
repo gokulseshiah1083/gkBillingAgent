@@ -1,0 +1,197 @@
+# AI Billing Investigation Agent - Configuration Settings
+
+# Application Settings
+app:
+  name: "AI Billing Investigation Agent"
+  version: "1.0.0"
+  environment: "development"  # development, staging, production
+  debug: true
+  log_level: "INFO"
+
+# Database Configuration
+database:
+  oracle:
+    host: "${ORACLE_HOST}"
+    port: 1521
+    service_name: "${ORACLE_SERVICE}"
+    username: "${ORACLE_USER}"
+    password: "${ORACLE_PASSWORD}"
+    pool_size: 20
+    max_overflow: 30
+    pool_timeout: 30
+    pool_recycle: 3600
+
+  redis:
+    host: "${REDIS_HOST}"
+    port: 6379
+    password: "${REDIS_PASSWORD}"
+    db: 0
+    max_connections: 100
+
+# Vector Database Configuration
+vector_db:
+  provider: "pinecone"  # pinecone, weaviate, faiss
+  pinecone:
+    api_key: "${PINECONE_API_KEY}"
+    environment: "${PINECONE_ENVIRONMENT}"
+    index_name: "billing-investigations"
+    dimension: 1536
+    metric: "cosine"
+  
+  weaviate:
+    url: "${WEAVIATE_URL}"
+    api_key: "${WEAVIATE_API_KEY}"
+    batch_size: 100
+
+# AI/ML Model Configuration
+models:
+  embedding:
+    provider: "openai"  # openai, huggingface, sentence_transformers
+    model: "text-embedding-ada-002"
+    dimension: 1536
+    max_tokens: 8191
+  
+  llm:
+    provider: "openai"  # openai, anthropic, huggingface
+    model: "gpt-4"
+    temperature: 0.1
+    max_tokens: 4000
+    top_p: 0.9
+    frequency_penalty: 0.0
+    presence_penalty: 0.0
+
+# Security Configuration
+security:
+  encryption:
+    algorithm: "AES-256-GCM"
+    key_derivation: "PBKDF2"
+    iterations: 100000
+  
+  authentication:
+    provider: "oauth2"
+    issuer: "${OAUTH_ISSUER}"
+    client_id: "${OAUTH_CLIENT_ID}"
+    client_secret: "${OAUTH_CLIENT_SECRET}"
+  
+  pii_masking:
+    enabled: true
+    pan_mask: "first6_last4"
+    name_mask: "first_initial_last"
+    email_mask: "partial"
+    phone_mask: "partial"
+
+# Compliance Configuration
+compliance:
+  pci_dss:
+    enabled: true
+    pan_retention_days: 90
+    audit_retention_days: 2555  # 7 years
+    encryption_required: true
+  
+  gdpr:
+    enabled: true
+    data_retention_days: 730  # 2 years
+    right_to_erasure: true
+  
+  audit:
+    enabled: true
+    log_all_queries: true
+    log_all_responses: true
+    log_data_access: true
+
+# RAG Configuration
+rag:
+  retrieval:
+    max_results: 20
+    similarity_threshold: 0.7
+    hybrid_search: true
+    rerank_enabled: true
+  
+  chunking:
+    chunk_size: 1000
+    chunk_overlap: 200
+    chunk_strategy: "semantic"
+  
+  knowledge_graph:
+    enabled: true
+    entity_extraction: true
+    relationship_extraction: true
+
+# Data Processing Configuration
+data_processing:
+  batch_size: 1000
+  max_concurrent_jobs: 10
+  timeout_seconds: 300
+  retry_attempts: 3
+  retry_delay_seconds: 5
+
+# Performance Configuration
+performance:
+  caching:
+    enabled: true
+    ttl_seconds: 3600
+    max_size: 10000
+  
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 100
+    burst_size: 20
+  
+  connection_pooling:
+    enabled: true
+    max_connections: 100
+    idle_timeout: 300
+
+# Monitoring Configuration
+monitoring:
+  metrics:
+    enabled: true
+    port: 9090
+    path: "/metrics"
+  
+  logging:
+    format: "json"
+    level: "INFO"
+    file_path: "/var/log/billing-agent/app.log"
+    max_file_size: "100MB"
+    backup_count: 10
+  
+  tracing:
+    enabled: true
+    sampling_rate: 0.1
+    export_jaeger: true
+    jaeger_endpoint: "${JAEGER_ENDPOINT}"
+
+# Business Configuration
+business:
+  investigation_types:
+    - "single_transaction"
+    - "pan_range"
+    - "issuer_level"
+    - "fee_dispute"
+    - "rule_violation"
+  
+  confidence_thresholds:
+    low: 0.7
+    medium: 0.85
+    high: 0.95
+  
+  response_time_targets:
+    simple_query: 30  # seconds
+    complex_query: 120  # seconds
+    batch_query: 600  # seconds
+
+# Feature Flags
+features:
+  advanced_analytics: true
+  predictive_insights: false
+  autonomous_investigation: false
+  multi_language_support: false
+  voice_queries: false
+
+# Development Configuration
+development:
+  hot_reload: true
+  debug_toolbar: true
+  profiling: false
+  mock_external_apis: false
