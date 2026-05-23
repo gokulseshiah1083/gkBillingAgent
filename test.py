@@ -30,6 +30,7 @@ async def _run() -> int:
         config = load_config(Path(__file__).parent / "config" / "settings.yaml")
 
         rag_engine = RAGEngine(config.get("models", {}), config.get("vector_db", {}))
+        await rag_engine.ensure_indexed()
         compliance_engine = ComplianceEngine(config.get("security", {}), config.get("compliance", {}))
         data_manager = DataAccessManager(config.get("database", {}))
 

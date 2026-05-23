@@ -30,7 +30,12 @@ database:
 
 # Vector Database Configuration
 vector_db:
-  provider: "pinecone"  # pinecone, weaviate, faiss
+  provider: "chroma"  # chroma, pinecone, weaviate, faiss
+  chroma:
+    path: ".chroma"
+    collection_name: "billing-records"
+    embedding_model: "all-MiniLM-L6-v2"
+    space: "cosine"
   pinecone:
     api_key: "${PINECONE_API_KEY}"
     environment: "${PINECONE_ENVIRONMENT}"

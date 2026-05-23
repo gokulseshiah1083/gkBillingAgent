@@ -136,6 +136,8 @@ async def startup_event():
         rag_engine = RAGEngine(config.get("models", {}), config.get("vector_db", {}))
         compliance_engine = ComplianceEngine(config.get("security", {}), config.get("compliance", {}))
         data_manager = DataAccessManager(config.get("database", {}))
+
+        await rag_engine.ensure_indexed()
         
         # Initialize main agent
         agent = BillingInvestigationAgent(

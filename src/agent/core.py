@@ -242,6 +242,7 @@ class BillingInvestigationAgent:
         
         investigation_type = parsed_query["investigation_type"]
         entities = parsed_query["entities"]
+        query_text = parsed_query.get("original_query", "")
         
         # Base investigation steps
         base_steps = [
@@ -251,6 +252,7 @@ class BillingInvestigationAgent:
                 "tool": "rag_engine",
                 "parameters": {
                     "query_type": "rules",
+                    "query_text": query_text,
                     "entities": entities
                 }
             },
@@ -260,6 +262,7 @@ class BillingInvestigationAgent:
                 "tool": "rag_engine",
                 "parameters": {
                     "query_type": "cases",
+                    "query_text": query_text,
                     "entities": entities
                 }
             }
@@ -366,6 +369,7 @@ class BillingInvestigationAgent:
                 if tool == "rag_engine":
                     result = await self.rag_engine.retrieve(
                         query_type=parameters.get("query_type"),
+                        query_text=parameters.get("query_text", ""),
                         entities=parameters.get("entities"),
                         context=context
                     )

@@ -13,3 +13,5 @@ venv/
 .streamlit/secrets.toml
 .idea/
 .vscode/
+
+.chroma/
